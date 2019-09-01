@@ -1,0 +1,66 @@
+{
+  "name": "forint",
+  "version": "0.1.2",
+  "license": "MIT",
+  "description": "Javascript MongoDB inspired query library.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js",
+    "build": "gulp compile",
+    "test": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LucaCode/forint.git"
+  },
+  "author": {
+    "name": "Luca Scarignella",
+    "email": "lucacode1@gmail.com",
+    "url": "https://luca.scaringella.de"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "esay",
+    "query",
+    "array",
+    "mongoDb inspired",
+    "select"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.7.2",
+    "gulp": "4.0.0",
+    "gulp-typescript": "5.0.1",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.5.3",
+    "nyc": "13.1.0",
+    "chai": "4.2.0",
+    "mocha": "^6.1.4",
+    "gulp-optimize-js": "1.1.0",
+    "gulp-terser": "1.2.0"
+  }
+}
