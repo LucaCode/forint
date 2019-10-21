@@ -90,4 +90,4 @@ export type ElemMatch<T> = { [P in keyof T]?: ForintQuery<T[P]> };
 export type ExternalQuery<T extends SupportedType> = ElemMatch<T>;
 export interface InternalQuery<T extends SupportedType> extends Query<T> {}
 
-export type ForintQuery<T extends SupportedType = SupportedType> = | ExternalQuery<T> | InternalQuery<T>;
+export type ForintQuery<T extends SupportedType = unknown> = | ExternalQuery<T> | InternalQuery<T>;
