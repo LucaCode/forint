@@ -77,6 +77,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
 export default buildQueryFunc;
 
 function buildQueryFunc<T>(query : ForintQuery<T>) : (value : any) => boolean {
+    query = typeof query !== 'object' ? {$ceq : query} : query;
     const keys = Object.keys(query);
     const len = keys.length;
     let prop;
