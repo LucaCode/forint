@@ -1,6 +1,6 @@
 {
   "name": "forint",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "description": "Javascript MongoDB inspired query library.",
   "main": "dist/index.js",
