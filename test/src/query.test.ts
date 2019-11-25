@@ -404,4 +404,50 @@ describe('QueryTests',() => {
         });
     });
 
+    describe('Stability', () => {
+
+        it('With undefined', () => {
+            assert(!forint({
+                person : {
+                    $eq : {
+                        name : 'luca',
+                        age : 20
+                    }
+                }
+            })(undefined));
+        });
+
+        it('With deep undefined', () => {
+            assert(!forint({
+                person : {
+                    name : 'luca',
+                    age : {
+                        gt : 10,
+                        $in : [20,11,45]
+                    }
+                }
+            })({person : {name : 'luca',age : undefined}}));
+        });
+
+        it('With null', () => {
+            assert(!forint({
+                person : {
+                    name : 'luca'
+                }
+            })(null));
+        });
+
+        it('With deep null', () => {
+            assert(!forint({
+                person : {
+                    name : 'luca',
+                    age : {
+                        gt : 10,
+                        $in : [20,11,45]
+                    }
+                }
+            })({person : {name : 'luca',age : null}}));
+        });
+    });
+
 });
