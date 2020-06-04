@@ -4,7 +4,7 @@ GitHub: LucaCode
 Copyright(c) Luca Scaringella
  */
 
-import {contentEqual, deepEqual} from "../../src/lib/equalUtils";
+import {contentDeepEqual, deepEqual} from "../../src/lib/equalUtils";
 const assert      = require("chai").assert;
 
 describe('EqualUtilsTests',() => {
@@ -61,7 +61,7 @@ describe('EqualUtilsTests',() => {
             {value1: {a: [23,1231,{fo: 'b'}]}, value2: {a: [23,1231,{fo: 'a'}]}, expected: false},
         ] as {value1: any, value2: any, expected: boolean}[]).forEach(({value1,value2,expected}) => {
             it(`Should be ${!expected ? 'not ' : ''}deep equal`, () => {
-                assert(expected === contentEqual(value1,value2));
+                assert(expected === contentDeepEqual(value1,value2));
             });
         });
     });

@@ -5,12 +5,12 @@ Copyright(c) Luca Scaringella
  */
 
 import {ForintQuery}             from "./types";
-import {contentEqual, deepEqual} from "./equalUtils";
+import {contentDeepEqual, deepEqual} from "./equalUtils";
 
 
 const filterMap : Record<string,(v : any,e : any) => boolean> = {
-    $ceq : contentEqual,
-    $nceq : (v,e) => !contentEqual(v,e),
+    $ceq : contentDeepEqual,
+    $nceq : (v,e) => !contentDeepEqual(v,e),
     $eq : deepEqual,
     $neq : (v,e) => !deepEqual(v,e),
     $gt : (v,e) => v > e,
