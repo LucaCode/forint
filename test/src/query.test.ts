@@ -48,6 +48,10 @@ describe('QueryTests',() => {
             })({person : {name : 'luca',age : 20}}));
         });
 
+        it('With two matching values', () => {
+            assert(forint('10')(10));
+        });
+
         it('With two not matching objects', () => {
             assert(forint({
                 person : {
@@ -251,6 +255,22 @@ describe('QueryTests',() => {
             })({v : 20}));
         });
 
+        it('With matching value', () => {
+            assert(forint({
+                v : {
+                    $type : 'null'
+                }
+            })({v : null}));
+        });
+
+        it('With not matching value', () => {
+            assert(!forint({
+                v : {
+                    $type : 'null'
+                }
+            })({v : ''}));
+        });
+
         it('With not matching value', () => {
             assert(!forint({
                 v : {
@@ -276,6 +296,14 @@ describe('QueryTests',() => {
                     $all : ['hello','hey','hi']
                 }
             })({v : ['hello','yolo','hey','foo']}));
+        });
+
+        it('With not matching value', () => {
+            assert(!forint({
+                v : {
+                    $all : ['hello','hey','hi']
+                }
+            })({v : ''}));
         });
     });
 
