@@ -6,496 +6,608 @@ Copyright(c) Luca Scaringella
 
 import forint from "../../src";
 
-const assert            = require("chai").assert;
+const assert = require("chai").assert;
 
-describe('QueryTests',() => {
+describe('QueryTests', () => {
 
-    describe('Equals Filter', () => {
-
-        it('With two matching objects', () => {
-            assert(forint({
-                person : {
-                    $eq : {
-                        name : 'luca',
-                        age : 20
-                    }
-                }
-            })({person : {name : 'luca',age : 20}}));
-        });
-
-        it('With two not matching objects', () => {
-            assert(forint({
-                person : {
-                    $neq : {
-                        name : 'luca',
-                        age : 20
-                    }
-                }
-            })({person : {name : 'lucaa',age : 22}}));
-        });
-
-        it('With two matching objects - 2', () => {
-            assert(forint({
-                name: 'Luca'
-            })({
-                name: 'Luca'
-            }));
-        });
-
-        it('With two not matching objects - 2', () => {
-            assert(!forint({
-                code: 10
-            })({
-                code: '10'
-            }));
-        });
-
-        it('With two matching values', () => {
-            assert(forint(10)(10));
-        });
-
-        it('With two not matching values', () => {
-            assert(!forint('10')(10));
-        });
-    });
-
-    describe('Content Equals Filter', () => {
-
-        it('With two matching objects', () => {
-            assert(forint({
-                person : {
-                    $ceq : {
-                        name : 'luca',
-                        age : '20'
-                    }
-                }
-            })({person : {name : 'luca',age : 20}}));
-        });
-
-        it('With two not matching objects', () => {
-            assert(forint({
-                person : {
-                    $nceq : {
-                        name : 'luca',
-                        age : '200'
-                    }
-                }
-            })({person : {name : 'luca',age : 22}}));
-        });
-    });
-
-    describe('Or query', () => {
-
-        it('With one matching query', () => {
-            assert(forint({
-                person : {
-                    $or : [{
-                        name : 'luca'
-                    },{
-                        name : 'gag'
-                    }]
-                }
-            })({person : {name : 'luca',age : 20}}));
-        });
-
-        it('With no matching query', () => {
-            assert(!forint({
-                person : {
-                    $or : [{
-                        name : 'luca'
-                    },{
-                        name : 'gag'
-                    }]
-                }
-            })({person : {name : 'lucaa',age : 22}}));
-        });
-    });
-
-    describe('Gt filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $gt : 10
-                }
-            })({v : 12}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $gt : 10
-                }
-            })({v : 2}));
-        });
-    });
-
-    describe('Gte filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $gte : 10
-                }
-            })({v : 10}));
-        });
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $gte : 10
-                }
-            })({v : 12}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $gte : 10
-                }
-            })({v : 2}));
-        });
-    });
-
-    describe('Lt filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $lt : 10
-                }
-            })({v : 8}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $lt : 10
-                }
-            })({v : 12}));
-        });
-    });
-
-    describe('Lte filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $lte : 10
-                }
-            })({v : 10}));
-        });
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $lte : 10
-                }
-            })({v : 8}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $lte : 10
-                }
-            })({v : 12}));
-        });
-    });
-
-    describe('In filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $in : ['hello',10,0]
-                }
-            })({v : 10}));
-        });
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $in : ['hello',10,0]
-                }
-            })({v : 'hello'}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $in : ['hello',10,0]
-                }
-            })({v : 'foo'}));
-        });
-    });
-
-    describe('Not in filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $nin : ['hello',10,0]
-                }
-            })({v : 18}));
-        });
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $nin : ['hello',10,0]
-                }
-            })({v : 'hey'}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $nin : ['hello',10,0]
-                }
-            })({v : 'hello'}));
-        });
-    });
-
-    describe('Type filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                   $type : 'array'
-                }
-            })({v : []}));
-        });
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $type : 'number'
-                }
-            })({v : 20}));
-        });
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $type : 'null'
-                }
-            })({v : null}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $type : 'null'
-                }
-            })({v : ''}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $type : 'string'
-                }
-            })({v : 30}));
-        });
-    });
-
-    describe('All filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $all : ['hello','hey','hi']
-                }
-            })({v : ['hello','yolo','hey','foo','hi']}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $all : ['hello','hey','hi']
-                }
-            })({v : ['hello','yolo','hey','foo']}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $all : ['hello','hey','hi']
-                }
-            })({v : ''}));
-        });
-    });
-
-    describe('Len filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                    $len : 5
-                }
-            })({v : ['hello','yolo','hey','foo','hi']}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $len : 5
-                }
-            })({v : ['hello','yolo','hey','foo']}));
-        });
-    });
-
-    describe('Not query', () => {
-
-        it('With no matching queries', () => {
-            assert(forint({
-                person : {
-                    $not : [{
-                        name : 'lucaa'
-                    },{
-                        age : {
-                            $gt : 28
+    [
+        {
+            title: 'Equals Filter',
+            tests: [
+                {
+                    query: {
+                        person: {
+                            $eq: {
+                                name: 'luca',
+                                age: 20
+                            }
                         }
-                    }]
-                }
-            })({person : {name : 'luca',age : 20}}));
-        });
-
-        it('With no matching query', () => {
-            assert(forint({
-                person : {
-                    $not : {
-                        name : 'gag'
-                    }
-                }
-            })({person : {name : 'luca',age : 22}}));
-        });
-
-        it('With matching query', () => {
-            assert(!forint({
-                person : {
-                    $not : {
-                        name : 'luca'
-                    }
-                }
-            })({person : {name : 'luca',age : 22}}));
-        });
-    });
-
-    describe('And query', () => {
-
-        it('With matching queries', () => {
-            assert(forint({
-                person : {
-                    $and : [{
-                        name : 'luca'
-                    },{
-                       age : {
-                           $gt : 18
-                       }
-                    }]
-                }
-            })({person : {name : 'luca',age : 20}}));
-        });
-
-        it('With one matching query', () => {
-            assert(!forint({
-                person : {
-                    $and : [{
-                        name : 'luca'
-                    },{
-                        age : {
-                            $lt : 18
+                    },
+                    data: {person: {name: 'luca', age: 20}},
+                    expect: true
+                },
+                {
+                    query: {
+                        person: {
+                            $neq: {
+                                name: 'luca',
+                                age: 20
+                            }
                         }
-                    }]
+                    },
+                    data: {person: {name: 'lucaa', age: 22}},
+                    expect: true
+                },
+                {
+                    query: {
+                        name: 'Luca'
+                    },
+                    data: {
+                        name: 'Luca'
+                    },
+                    expect: true
+                },
+                {
+                    query: {
+                        code: 10
+                    },
+                    data: {
+                        code: '10'
+                    },
+                    expect: false
+                },
+                {
+                    query: 10,
+                    data: 10,
+                    expect: true
+                },
+                {
+                    query: '10',
+                    data: 10,
+                    expect: false
                 }
-            })({person : {name : 'luca',age : 22}}));
-        });
-    });
-
-    describe('Regex filter', () => {
-
-        it('With matching value', () => {
-            assert(forint({
-                v : {
-                   $regex : '^[0-9]*$'
+            ]
+        },
+        {
+            title: 'Content Equals Filter',
+            tests: [
+                {
+                    query: {
+                        person: {
+                            $ceq: {
+                                name: 'luca',
+                                age: '20'
+                            }
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 20}},
+                    expect: true
+                },
+                {
+                    query: {
+                        person: {
+                            $nceq: {
+                                name: 'luca',
+                                age: '200'
+                            }
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 22}},
+                    expect: true
                 }
-            })({v : '45353'}));
-        });
-
-        it('With not matching value', () => {
-            assert(!forint({
-                v : {
-                    $regex: '^[0-9]*$'
+            ]
+        },
+        {
+            title: 'Or query',
+            tests: [
+                {
+                    query: {
+                        person: {
+                            $or: [{
+                                name: 'luca'
+                            }, {
+                                name: 'gag'
+                            }]
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 20}},
+                    expect: true
+                },
+                {
+                    query: {
+                        person: {
+                            $or: [{
+                                name: 'luca'
+                            }, {
+                                name: 'gag'
+                            }]
+                        }
+                    },
+                    data: {person: {name: 'lucaa', age: 22}},
+                    expect: false
                 }
-            })({v : '343a53'}));
-        });
-    });
-
-    describe('Exist filter', () => {
-
-        it('Should exist', () => {
-            assert(forint({
-                v : {
-                    $exists : true
+            ]
+        },
+        {
+            title: 'Gt filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $gt: 10
+                        }
+                    },
+                    data: {v: 12},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $gt: 10
+                        }
+                    },
+                    data: {v: 2},
+                    expect: false
                 }
-            })({v : 'hey'}));
-        });
-
-        it('Should not exist', () => {
-            assert(!forint({
-                v : {
-                    $exists : false
+            ]
+        },
+        {
+            title: 'Gte filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $gte: 10
+                        }
+                    },
+                    data: {v: 10},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $gte: 10
+                        }
+                    },
+                    data: {v: 12},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $gte: 10
+                        }
+                    },
+                    data: {v: 2},
+                    expect: false
                 }
-            })({v : 'hey'}));
-        });
-    });
-
-    describe('Stability', () => {
-
-        it('With undefined', () => {
-            assert(!forint({
-                person : {
-                    $eq : {
-                        name : 'luca',
-                        age : 20
-                    }
+            ]
+        },
+        {
+            title: 'Lt filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $lt: 10
+                        }
+                    },
+                    data: {v: 8},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $lt: 10
+                        }
+                    },
+                    data: {v: 12},
+                    expect: false
                 }
-            })(undefined));
-        });
-
-        it('With deep undefined', () => {
-            assert(!forint({
-                person : {
-                    name : 'luca',
-                    age : {
-                        gt : 10,
-                        $in : [20,11,45]
-                    }
+            ]
+        },
+        {
+            title: 'Lte filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $lte: 10
+                        }
+                    },
+                    data: {v: 10},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $lte: 10
+                        }
+                    },
+                    data: {v: 8},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $lte: 10
+                        }
+                    },
+                    data: {v: 12},
+                    expect: false
                 }
-            })({person : {name : 'luca',age : undefined}}));
-        });
-
-        it('With null', () => {
-            assert(!forint({
-                person : {
-                    name : 'luca'
+            ]
+        },
+        {
+            title: 'In filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $in: ['hello', 10, 0]
+                        }
+                    },
+                    data: {v: 10},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $in: ['hello', 10, 0]
+                        }
+                    },
+                    data: {v: 'hello'},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $in: ['hello', 10, 0]
+                        }
+                    },
+                    data: {v: 'foo'},
+                    expect: false
                 }
-            })(null));
-        });
-
-        it('With deep null', () => {
-            assert(!forint({
-                person : {
-                    name : 'luca',
-                    age : {
-                        gt : 10,
-                        $in : [20,11,45]
-                    }
+            ]
+        },
+        {
+            title: 'Not in filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $nin: ['hello', 10, 0]
+                        }
+                    },
+                    data: {v: 18},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $nin: ['hello', 10, 0]
+                        }
+                    },
+                    data: {v: 'hey'},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $nin: ['hello', 10, 0]
+                        }
+                    },
+                    data: {v: 'hello'},
+                    expect: false
                 }
-            })({person : {name : 'luca',age : null}}));
-        });
-    });
-
+            ]
+        },
+        {
+            title: 'Type filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $type: 'array'
+                        }
+                    },
+                    data: {v: []},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $type: 'number'
+                        }
+                    },
+                    data: {v: 20},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $type: 'null'
+                        }
+                    },
+                    data: {v: null},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $type: 'null'
+                        }
+                    },
+                    data: {v: ''},
+                    expect: false
+                },
+                {
+                    query: {
+                        v: {
+                            $type: 'string'
+                        }
+                    },
+                    data: {v: 30},
+                    expect: false
+                }
+            ]
+        },
+        {
+            title: 'All filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $all: ['hello', 'hey', 'hi']
+                        }
+                    },
+                    data: {v: ['hello', 'yolo', 'hey', 'foo', 'hi']},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $all: ['hello', 'hey', 'hi']
+                        }
+                    },
+                    data: {v: ['hello', 'yolo', 'hey', 'foo']},
+                    expect: false
+                },
+                {
+                    query: {
+                        v: {
+                            $all: ['hello', 'hey', 'hi']
+                        }
+                    },
+                    data: {v: ''},
+                    expect: false
+                }
+            ]
+        },
+        {
+            title: 'Len filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $len: 5
+                        }
+                    },
+                    data: {v: ['hello', 'yolo', 'hey', 'foo', 'hi']},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $len: 5
+                        }
+                    },
+                    data: {v: ['hello', 'yolo', 'hey', 'foo']},
+                    expect: false
+                }
+            ]
+        },
+        {
+            title: 'Not query',
+            tests: [
+                {
+                    query: {
+                        person: {
+                            $not: [{
+                                name: 'lucaa'
+                            }, {
+                                age: {
+                                    $gt: 28
+                                }
+                            }]
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 20}},
+                    expect: true
+                },
+                {
+                    query: {
+                        person: {
+                            $not: {
+                                name: 'gag'
+                            }
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 22}},
+                    expect: true
+                },
+                {
+                    query: {
+                        person: {
+                            $not: {
+                                name: 'luca'
+                            }
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 22}},
+                    expect: false
+                },
+                {
+                    query: {
+                        person: {
+                            $not: [{
+                                name: 'lucaa'
+                            }, {
+                                age: {
+                                    $gt: 28
+                                }
+                            }]
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 30}},
+                    expect: false
+                },
+            ]
+        },
+        {
+            title: 'And query',
+            tests: [
+                {
+                    query: {
+                        person: {
+                            $and: [{
+                                name: 'luca'
+                            }, {
+                                age: {
+                                    $gt: 18
+                                }
+                            }]
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 20}},
+                    expect: true
+                },
+                {
+                    query: {
+                        person: {
+                            $and: [{
+                                name: 'luca'
+                            }, {
+                                age: {
+                                    $lt: 18
+                                }
+                            }]
+                        }
+                    },
+                    data: {person: {name: 'luca', age: 22}},
+                    expect: false
+                },
+            ]
+        },
+        {
+            title: 'Regex filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $regex: '^[0-9]*$'
+                        }
+                    },
+                    data: {v: '45353'},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $regex: '^[0-9]*$'
+                        }
+                    },
+                    data: {v: '343a53'},
+                    expect: false
+                },
+            ]
+        },
+        {
+            title: 'Exist filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $exists: true
+                        }
+                    },
+                    data: {v: 'hey'},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $exists: false
+                        }
+                    },
+                    data: {v: 'hey'},
+                    expect: false
+                },
+            ]
+        },
+        {
+            title: 'Stability',
+            tests: [
+                {
+                    title: 'Undefined should not match',
+                    query: {
+                        person: {
+                            $eq: {
+                                name: 'luca',
+                                age: 20
+                            }
+                        }
+                    },
+                    data: undefined,
+                    expect: false
+                },
+                {
+                    title: 'Deep undefined should not match',
+                    query: {
+                        person: {
+                            name: 'luca',
+                            age: {
+                                gt: 10,
+                                $in: [20, 11, 45]
+                            }
+                        }
+                    },
+                    data: {person: {name: 'luca', age: undefined}},
+                    expect: false
+                },
+                {
+                    title: 'Null should not match',
+                    query: {
+                        person: {
+                            name: 'luca'
+                        }
+                    },
+                    data: null,
+                    expect: false
+                },
+                {
+                    title: 'Deep null should not match',
+                    query: {
+                        person: {
+                            name: 'luca',
+                            age: {
+                                gt: 10,
+                                $in: [20, 11, 45]
+                            }
+                        }
+                    },
+                    data: {person: {name: 'luca', age: null}},
+                    expect: false
+                },
+            ]
+        }
+    ].forEach(testSet => {
+        describe(testSet.title, () => {
+            testSet.tests.forEach((test, index) => {
+                it(test.title || `${index} should ${test.expect ? 'match' : 'not match'}`, () => {
+                    assert(forint(test.query)(test.data) === test.expect);
+                });
+            });
+        })
+    })
 });
