@@ -77,7 +77,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
 export default buildQueryFunc;
 
 function buildQueryFunc<T>(query : ForintQuery<T>) : (value : any) => boolean {
-    query = typeof query !== 'object' ? {$ceq : query} : query;
+    query = typeof query !== 'object' ? {$eq : query} : query;
     const keys = Object.keys(query);
     const len = keys.length;
     let prop;
@@ -101,7 +101,7 @@ function buildQueryFunc<T>(query : ForintQuery<T>) : (value : any) => boolean {
             });
         }
         else {
-            const filterFunc = filterMap['$ceq'];
+            const filterFunc = filterMap['$eq'];
             const tmpProp = prop;
             const expected = query[prop];
             filter.push((v) => (v && typeof v === 'object') ? filterFunc(v[tmpProp],expected) : false);
