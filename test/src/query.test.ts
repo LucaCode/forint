@@ -33,6 +33,30 @@ describe('QueryTests',() => {
                 }
             })({person : {name : 'lucaa',age : 22}}));
         });
+
+        it('With two matching objects - 2', () => {
+            assert(forint({
+                name: 'Luca'
+            })({
+                name: 'Luca'
+            }));
+        });
+
+        it('With two not matching objects - 2', () => {
+            assert(!forint({
+                code: 10
+            })({
+                code: '10'
+            }));
+        });
+
+        it('With two matching values', () => {
+            assert(forint(10)(10));
+        });
+
+        it('With two not matching values', () => {
+            assert(!forint('10')(10));
+        });
     });
 
     describe('Content Equals Filter', () => {
@@ -46,10 +70,6 @@ describe('QueryTests',() => {
                     }
                 }
             })({person : {name : 'luca',age : 20}}));
-        });
-
-        it('With two matching values', () => {
-            assert(forint('10')(10));
         });
 
         it('With two not matching objects', () => {
