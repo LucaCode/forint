@@ -2,7 +2,7 @@
   "name": "forint",
   "version": "0.2.1",
   "license": "MIT",
-  "description": "Javascript MongoDB inspired query library.",
+  "description": "TypeScript MongoDB inspired query library.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,9 +16,8 @@
     "url": "https://github.com/LucaCode/forint.git"
   },
   "author": {
-    "name": "Luca Scaringella",
-    "email": "lucacode1@gmail.com",
-    "url": "https://luca.scaringella.de"
+    "name": "Ing. Luca Gian Scaringella",
+    "email": "lucacode1@gmail.com"
   },
   "files": [
     "dist/**/*",
@@ -29,9 +28,12 @@
     "query",
     "array",
     "mongoDb inspired",
-    "select"
+    "select",
+    "search",
+    "find",
+    "fast",
+    "lightweight"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@types/mocha": "^5.2.6",
     "@types/node": "^12.7.2",
