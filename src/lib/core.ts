@@ -18,8 +18,7 @@ const filterMap : Record<string,(v : any,e : any) => boolean> = {
     $lte : (v,e) => v <= e,
     $in : (v,e) => e.indexOf(v) !== -1,
     $nin : (v,e) => e.indexOf(v) === -1,
-    $len : (v,e) => v && typeof v === 'object' && v.length === e,
-    $exists : (v,e) => e ? (v !== undefined && v !== null) : (v === undefined || v === null),
+    $len : (v,e) => v && typeof v === 'object' && v.length === e
 };
 
 const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
@@ -65,7 +64,8 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         const regex = RegExp(e);
         const test = regex.test.bind(regex);
         return (v) => test(v);
-    }
+    },
+    $exists : e => e ? v => v != null : v => v == null,
 };
 
 export default buildQueryExecutor;
