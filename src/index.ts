@@ -4,7 +4,7 @@ GitHub: LucaCode
 Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import buildQueryFunc from "./lib/core";
+import buildQueryExecutor from "./lib/core";
 import {ForintQuery}  from "./lib/types";
 import {deepEqual,contentDeepEqual} from "./lib/equalUtils";
 
@@ -13,5 +13,5 @@ export {
     deepEqual,
     contentDeepEqual
 }
-const forint = buildQueryFunc;
+const forint = buildQueryExecutor;
 export default forint;

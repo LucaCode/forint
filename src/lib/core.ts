@@ -7,7 +7,6 @@ Copyright(c) Ing. Luca Gian Scaringella
 import {ForintQuery} from "./types";
 import {contentDeepEqual, deepEqual} from "./equalUtils";
 
-
 const filterMap : Record<string,(v : any,e : any) => boolean> = {
     $ceq : contentDeepEqual,
     $nceq : (v,e) => !contentDeepEqual(v,e),
@@ -27,7 +26,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
     $or : (e) => {
         const eLen = e.length, queryOrFuncs : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++){
-            queryOrFuncs.push(buildQueryFunc(e[i]));
+            queryOrFuncs.push(buildQueryExecutor(e[i]));
         }
         return (v) => {
             for(let i = 0; i < eLen; i++) if(queryOrFuncs[i](v)) return true;
@@ -52,13 +51,13 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
             const orFunc = preparedFilterMap['$or'](e);
             return (v) => !orFunc(v);
         }
-        const queryFunc = buildQueryFunc(e);
+        const queryFunc = buildQueryExecutor(e);
         return (v) => !queryFunc(v);
     },
     $and : (e) => {
         const eLen = e.length, queryOrFuncs : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++){
-            queryOrFuncs.push(buildQueryFunc(e[i]));
+            queryOrFuncs.push(buildQueryExecutor(e[i]));
         }
         return (v) => {
             for(let i = 0; i < eLen; i++) if(!queryOrFuncs[i](v)) return false;
@@ -72,9 +71,9 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
     }
 };
 
-export default buildQueryFunc;
+export default buildQueryExecutor;
 
-function buildQueryFunc<T>(query : ForintQuery<T>) : (value : any) => boolean {
+function buildQueryExecutor<T>(query : ForintQuery<T>) : (value : any) => boolean {
     query = typeof query !== 'object' ? {$eq : query} : query;
     const keys = Object.keys(query), len = keys.length, filter : ((v : any) => boolean)[] = [];
     let prop;
@@ -88,7 +87,7 @@ function buildQueryFunc<T>(query : ForintQuery<T>) : (value : any) => boolean {
             filter.push(preparedFilterMap[prop](query[prop]));
         }
         else if(typeof query[prop] === 'object') {
-            const innerQueryFunc = buildQueryFunc(query[prop]), tmpProp = prop;
+            const innerQueryFunc = buildQueryExecutor(query[prop]), tmpProp = prop;
             filter.push((v) => {
                 if(v && typeof v === 'object') return innerQueryFunc(v[tmpProp]);
                 return false;
