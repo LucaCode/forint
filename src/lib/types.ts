@@ -7,6 +7,8 @@ Copyright(c) Ing. Luca Gian Scaringella
 export type Filter = (value: any) => boolean;
 export type QueryExecutor = (value: any) => boolean;
 
+type ArrayElements<T> = T extends (infer E)[] ? E : never;
+
 type SupportedType =
     | string
     | number
@@ -79,12 +81,12 @@ interface Query<T extends SupportedType> {
      * Checks if any elements in the array match all given queries
      * without regard to order or other elements in the array.
      */
-    $all?: ForintQuery<T>[];
+    $all?: ForintQuery<ArrayElements<T>>[];
     /**
      * @description
      * Checks if at least one array element matches the query.
      */
-    $elemMatch?: ForintQuery<T>;
+    $elemMatch?: ForintQuery<ArrayElements<T>>;
     /**
      * @description
      * Checks the length of an array.
