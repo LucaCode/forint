@@ -5,6 +5,7 @@ Copyright(c) Ing. Luca Gian Scaringella
  */
 
 /**
+ * @description
  * Checks if a value is deep equal to another value.
  * @param v1
  * @param v2
@@ -32,6 +33,7 @@ export function deepEqual(v1 : any, v2 : any) : boolean {
 }
 
 /**
+ * @description
  * Checks if a value is deep equal to another value.
  * @param v1
  * @param v2
