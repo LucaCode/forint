@@ -25,8 +25,7 @@ const filterMap : Record<string,(v : any,e : any) => boolean> = {
 
 const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
     $or : (e) => {
-        const eLen = e.length;
-        const queryOrFuncs : ((v : any) => boolean)[] = [];
+        const eLen = e.length, queryOrFuncs : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++){
             queryOrFuncs.push(buildQueryFunc(e[i]));
         }
@@ -57,8 +56,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return (v) => !queryFunc(v);
     },
     $and : (e) => {
-        const eLen = e.length;
-        const queryOrFuncs : ((v : any) => boolean)[] = [];
+        const eLen = e.length, queryOrFuncs : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++){
             queryOrFuncs.push(buildQueryFunc(e[i]));
         }
@@ -78,32 +76,26 @@ export default buildQueryFunc;
 
 function buildQueryFunc<T>(query : ForintQuery<T>) : (value : any) => boolean {
     query = typeof query !== 'object' ? {$eq : query} : query;
-    const keys = Object.keys(query);
-    const len = keys.length;
+    const keys = Object.keys(query), len = keys.length, filter : ((v : any) => boolean)[] = [];
     let prop;
-    const filter : ((v : any) => boolean)[] = [];
     for(let i = 0; i < len; i++){
         prop = keys[i];
         if(filterMap[prop]){
-            const filterFunc = filterMap[prop];
-            const expected = query[prop];
+            const filterFunc = filterMap[prop], expected = query[prop];
             filter.push((v) => filterFunc(v,expected));
         }
         else if(preparedFilterMap[prop]){
             filter.push(preparedFilterMap[prop](query[prop]));
         }
         else if(typeof query[prop] === 'object') {
-            const innerQueryFunc = buildQueryFunc(query[prop]);
-            const tmpProp = prop;
+            const innerQueryFunc = buildQueryFunc(query[prop]), tmpProp = prop;
             filter.push((v) => {
                 if(v && typeof v === 'object') return innerQueryFunc(v[tmpProp]);
                 return false;
             });
         }
         else {
-            const filterFunc = filterMap['$eq'];
-            const tmpProp = prop;
-            const expected = query[prop];
+            const filterFunc = filterMap['$eq'], tmpProp = prop, expected = query[prop];
             filter.push((v) => (v && typeof v === 'object') ? filterFunc(v[tmpProp],expected) : false);
         }
     }
