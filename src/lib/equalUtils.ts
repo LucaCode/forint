@@ -11,7 +11,7 @@ Copyright(c) Ing. Luca Gian Scaringella
  * @param v2
  */
 export function deepEqual(v1 : any, v2 : any) : boolean {
-    if (v1 === v2) return true;
+    if(v1 === v2) return true;
     if(typeof v1 === "object" && v1){
         if(typeof v2 === "object" && v2){
             if(Array.isArray(v1) && Array.isArray(v2)){
@@ -20,8 +20,8 @@ export function deepEqual(v1 : any, v2 : any) : boolean {
                 return true;
             }
             else {
-                for (let k in v1) if(v1.hasOwnProperty(k) && !deepEqual(v1[k],v2[k])) return false;
-                for (let k in v2) if(v2.hasOwnProperty(k) && !v1.hasOwnProperty(k)) return false;
+                for(let k in v1) if(v1.hasOwnProperty(k) && !deepEqual(v1[k],v2[k])) return false;
+                for(let k in v2) if(v2.hasOwnProperty(k) && !v1.hasOwnProperty(k)) return false;
                 return true;
             }
         }
@@ -37,7 +37,7 @@ export function deepEqual(v1 : any, v2 : any) : boolean {
  * @param v2
  */
 export function contentDeepEqual(v1 : any, v2 : any) : boolean {
-    if (v1 == v2) return true;
+    if(v1 == v2) return true;
     if(typeof v1 === "object" && v1){
         if(typeof v2 === "object" && v2){
             if(Array.isArray(v1) && Array.isArray(v2)){
@@ -46,8 +46,8 @@ export function contentDeepEqual(v1 : any, v2 : any) : boolean {
                 return true;
             }
             else {
-                for (let k in v1) if(v1.hasOwnProperty(k) && !contentDeepEqual(v1[k],v2[k])) return false;
-                for (let k in v2) if(v2.hasOwnProperty(k) && !v1.hasOwnProperty(k)) return false;
+                for(let k in v1) if(v1.hasOwnProperty(k) && !contentDeepEqual(v1[k],v2[k])) return false;
+                for(let k in v2) if(v2.hasOwnProperty(k) && !v1.hasOwnProperty(k)) return false;
                 return true;
             }
         }

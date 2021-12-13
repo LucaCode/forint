@@ -34,7 +34,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return v => !orFunc(v);
     },
     $type: e => {
-        if (e === 'array') return Array.isArray;
+        if(e === 'array') return Array.isArray;
         else if(e === 'null') return v => v === null;
         return v => typeof v === e;
     },
@@ -42,22 +42,22 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return v => {
-            if (!Array.isArray(v)) return false;
-            for (let i = 0; i < eLen; i++) if(v.findIndex(queryExecutors[i]) === -1) return false;
+            if(!Array.isArray(v)) return false;
+            for(let i = 0; i < eLen; i++) if(v.findIndex(queryExecutors[i]) === -1) return false;
             return true;
         }
     },
     $elemMatch: e => {
         const queryExecutor = buildQueryExecutor(e);
         return v => {
-            if (!Array.isArray(v)) return false;
+            if(!Array.isArray(v)) return false;
             const len = v.length;
-            for (let i = 0; i < len; i++) if(queryExecutor(v)) return true;
+            for(let i = 0; i < len; i++) if(queryExecutor(v)) return true;
             return false;
         }
     },
     $not: e => {
-        if (Array.isArray(e)) {
+        if(Array.isArray(e)) {
             const orFunc = preparedFilterMap['$or'](e);
             return v => !orFunc(v);
         }
