@@ -1,10 +1,10 @@
 /*
-Author: Luca Scaringella
+Author: Ing. Luca Gian Scaringella
 GitHub: LucaCode
-Copyright(c) Luca Scaringella
+Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import {contentDeepEqual, deepEqual} from "../../src/lib/equalUtils";
+import {contentDeepEqual, deepEqual} from "../src/lib/equalUtils";
 const assert      = require("chai").assert;
 
 describe('EqualUtilsTests',() => {

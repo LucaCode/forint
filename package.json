@@ -9,7 +9,7 @@
     "prepublishOnly": "npm run build",
     "start": "node dist/index.js",
     "build": "gulp compile",
-    "test": "nyc mocha"
+    "test": "nyc --reporter=html --reporter=text mocha --exit -r ts-node/register test/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -20,27 +20,9 @@
     "email": "lucacode1@gmail.com",
     "url": "https://luca.scaringella.de"
   },
-  "nyc": {
-    "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx"
-    ],
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "html"
-    ],
-    "sourceMap": true,
-    "instrument": true
-  },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "!.DS_Store"
   ],
   "keywords": [
     "esay",
@@ -57,7 +39,7 @@
     "gulp-typescript": "5.0.1",
     "ts-node": "^8.0.3",
     "typescript": "^3.5.3",
-    "nyc": "13.1.0",
+    "nyc": "^15.1.0",
     "chai": "4.2.0",
     "mocha": "^6.1.4",
     "gulp-optimize-js": "1.1.0",

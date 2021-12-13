@@ -1,10 +1,10 @@
 /*
-Author: Luca Scaringella
+Author: Ing. Luca Gian Scaringella
 GitHub: LucaCode
-Copyright(c) Luca Scaringella
+Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import forint from "../../src";
+import forint from "../src";
 
 const assert = require("chai").assert;
 
