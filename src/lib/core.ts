@@ -20,53 +20,53 @@ const filterMap : Record<string,(v : any,e : any) => boolean> = {
 };
 
 const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
-    $or: (e) => {
+    $or: e => {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
-        return (v) => {
+        return v => {
             for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
             return false;
         }
     },
-    $in: (e) => preparedFilterMap['$or'](e),
-    $nin: (e) => {
+    $in: e => preparedFilterMap['$or'](e),
+    $nin: e => {
         const orFunc = preparedFilterMap['$or'](e);
         return v => !orFunc(v);
     },
-    $type: (e) => {
+    $type: e => {
         if (e === 'array') return Array.isArray;
-        else if(e === 'null') return (v) => v === null;
-        return (v) => typeof v === e;
+        else if(e === 'null') return v => v === null;
+        return v => typeof v === e;
     },
-    $all: (e) => {
+    $all: e => {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
-        return (v) => {
+        return v => {
             if (!Array.isArray(v)) return false;
             for (let i = 0; i < eLen; i++) if (v.findIndex(queryExecutors[i]) === -1) return false;
             return true;
         }
     },
-    $not: (e) => {
+    $not: e => {
         if (Array.isArray(e)) {
             const orFunc = preparedFilterMap['$or'](e);
-            return (v) => !orFunc(v);
+            return v => !orFunc(v);
         }
         const queryFunc = buildQueryExecutor(e);
-        return (v) => !queryFunc(v);
+        return v => !queryFunc(v);
     },
-    $and: (e) => {
+    $and: e => {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
-        return (v) => {
+        return v => {
             for(let i = 0; i < eLen; i++) if(!queryExecutors[i](v)) return false;
             return true;
         }
     },
-    $regex: (e) => {
+    $regex: e => {
         const regex = RegExp(e);
         const test = regex.test.bind(regex);
-        return (v) => test(v);
+        return v => test(v);
     },
     $exists: e => e ? v => v != null : v => v == null,
 };
@@ -81,24 +81,24 @@ function buildQueryExecutor<T>(query : ForintQuery<T>) : (value : any) => boolea
         prop = keys[i];
         if(filterMap[prop]){
             const filterFunc = filterMap[prop], expected = query[prop];
-            filter.push((v) => filterFunc(v,expected));
+            filter.push(v => filterFunc(v,expected));
         }
         else if(preparedFilterMap[prop])
             filter.push(preparedFilterMap[prop](query[prop]));
         else if(typeof query[prop] === 'object') {
             const innerQueryFunc = buildQueryExecutor(query[prop]), tmpProp = prop;
-            filter.push((v) => {
+            filter.push(v => {
                 if(v && typeof v === 'object') return innerQueryFunc(v[tmpProp]);
                 return false;
             });
         }
         else {
             const filterFunc = filterMap['$eq'], tmpProp = prop, expected = query[prop];
-            filter.push((v) => (v && typeof v === 'object') ? filterFunc(v[tmpProp],expected) : false);
+            filter.push(v => (v && typeof v === 'object') ? filterFunc(v[tmpProp],expected) : false);
         }
     }
     const filterLen = filter.length;
-    return (v) => {
+    return v => {
         for(let i = 0; i < filterLen; i++) if(!filter[i](v)) return false;
         return true;
     }
