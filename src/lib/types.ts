@@ -38,11 +38,6 @@ interface Query<T extends SupportedType> {
     $nce?: T,
     /**
      * @description
-     * Checks if one of the queries is matching.
-     */
-    $or?: ForintQuery<T>[];
-    /**
-     * @description
      * Checks if the value is greater.
      */
     $gt?: number;
@@ -97,6 +92,11 @@ interface Query<T extends SupportedType> {
      * Checks if all specified queries are not matching.
      */
     $not?: ForintQuery<T> | ForintQuery<T>[];
+    /**
+     * @description
+     * Checks if one of the queries is matching.
+     */
+    $or?: ForintQuery<T>[];
     /**
      * @description
      * Checks if all queries are matching with the value.

@@ -81,9 +81,6 @@ Checks if the value is content deep equal (== instead of ===).
 ***$nce: any***  
 Checks if the value is not content deep equal. (!= instead of !==).
 
-***$or: ForintQuery[]***  
-Checks if one of the queries is matching.
-
 ***$gt: number***  
 Checks if the value is greater.
 
@@ -117,6 +114,9 @@ Checks if the length of an array or string matches with the given query.
 
 ***$not: ForintQuery | ForintQuery[]***  
 Checks if all specified queries are not matching.
+
+***$or: ForintQuery[]***  
+Checks if one of the queries is matching.
 
 ***$and: ForintQuery[]***  
 Checks if all queries are matching with the value.

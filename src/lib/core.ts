@@ -19,14 +19,6 @@ const filterMap: Record<string,(v: any,e: any) => boolean> = {
 };
 
 const preparedFilterMap: Record<string,(e: any) => Filter> = {
-    $or: e => {
-        const eLen = e.length, queryExecutors: QueryExecutor[] = [];
-        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
-        return v => {
-            for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
-            return false;
-        }
-    },
     $in: e => preparedFilterMap['$or'](e),
     $nin: e => {
         const orFilter = preparedFilterMap['$or'](e);
@@ -66,6 +58,14 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
         }
         const queryExecutor = buildQueryExecutor(e);
         return v => !queryExecutor(v);
+    },
+    $or: e => {
+        const eLen = e.length, queryExecutors: QueryExecutor[] = [];
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
+        return v => {
+            for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
+            return false;
+        }
     },
     $and: e => {
         const eLen = e.length, queryExecutors: QueryExecutor[] = [];
