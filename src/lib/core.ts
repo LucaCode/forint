@@ -16,8 +16,6 @@ const filterMap : Record<string,(v : any,e : any) => boolean> = {
     $gte: (v,e) => v >= e,
     $lt: (v,e) => v < e,
     $lte: (v,e) => v <= e,
-    $in: (v,e) => e.indexOf(v) !== -1,
-    $nin: (v,e) => e.indexOf(v) === -1,
     $len: (v,e) => v && typeof v === 'object' && v.length === e
 };
 
@@ -29,6 +27,11 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
             for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
             return false;
         }
+    },
+    $in: (e) => preparedFilterMap['$or'](e),
+    $nin: (e) => {
+        const orFunc = preparedFilterMap['$or'](e);
+        return v => !orFunc(v);
     },
     $type: (e) => {
         if (e === 'array') return Array.isArray;

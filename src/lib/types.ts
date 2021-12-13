@@ -23,12 +23,12 @@ interface Query<T extends SupportedType> {
     $ne?: T;
     /**
      * @description
-     * Checks if the content of the value is deep equal (== instead of ===).
+     * Checks if the value is content deep equal (== instead of ===).
      */
     $ceq?: T,
     /**
      * @description
-     * Checks if the content of the value is not deep equal (!= instead of !==).
+     * Checks if the value is not content deep equal. (!= instead of !==).
      */
     $nceq?: T,
     /**
@@ -58,14 +58,14 @@ interface Query<T extends SupportedType> {
     $lte?: number;
     /**
      * @description
-     * Checks if the value is matching with one of these values.
+     * Checks if the value is matching with one of these queries.
      */
-    $in?: T[];
+    $in?: ForintQuery<T>[];
     /**
      * @description
-     * Checks if the value is not matching with one of these values.
+     * Checks if the value is not matching with one of these queries.
      */
-    $nin?: T[];
+    $nin?: ForintQuery<T>[];
     /**
      * @description
      * Checks the type of the value.
