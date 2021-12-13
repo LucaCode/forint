@@ -2,7 +2,7 @@
   "name": "forint",
   "version": "0.2.1",
   "license": "MIT",
-  "description": "TypeScript MongoDB inspired query library.",
+  "description": "High-performance TypeScript MongoDB inspired query library.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
