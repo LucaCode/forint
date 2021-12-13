@@ -78,6 +78,11 @@ interface Query<T extends SupportedType> {
     $all?: ForintQuery<T>[];
     /**
      * @description
+     * Checks if at least one array element matches the query.
+     */
+    $elemMatch?: ForintQuery<T>;
+    /**
+     * @description
      * Checks the length of an array.
      */
     $len?: number;

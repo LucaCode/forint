@@ -43,8 +43,17 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return v => {
             if (!Array.isArray(v)) return false;
-            for (let i = 0; i < eLen; i++) if (v.findIndex(queryExecutors[i]) === -1) return false;
+            for (let i = 0; i < eLen; i++) if(v.findIndex(queryExecutors[i]) === -1) return false;
             return true;
+        }
+    },
+    $elemMatch: e => {
+        const queryExecutor = buildQueryExecutor(e);
+        return v => {
+            if (!Array.isArray(v)) return false;
+            const len = v.length;
+            for (let i = 0; i < len; i++) if(queryExecutor(v)) return true;
+            return false;
         }
     },
     $not: e => {
