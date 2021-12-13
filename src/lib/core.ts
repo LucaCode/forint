@@ -15,8 +15,7 @@ const filterMap: Record<string,(v: any,e: any) => boolean> = {
     $gt: (v,e) => v > e,
     $gte: (v,e) => v >= e,
     $lt: (v,e) => v < e,
-    $lte: (v,e) => v <= e,
-    $len: (v,e) => v && typeof v === 'object' && v.length === e
+    $lte: (v,e) => v <= e
 };
 
 const preparedFilterMap: Record<string,(e: any) => Filter> = {
@@ -55,6 +54,10 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
             for(let i = 0; i < len; i++) if(queryExecutor(v[i])) return true;
             return false;
         }
+    },
+    $len: e => {
+        const queryExecutor = buildQueryExecutor(e);
+        return v => Array.isArray(v) || typeof v === 'string' ? queryExecutor(v.length) : false;
     },
     $not: e => {
         if(Array.isArray(e)) {

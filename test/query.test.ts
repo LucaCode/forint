@@ -436,7 +436,40 @@ describe('QueryTests', () => {
                     },
                     data: {v: ['hello', 'yolo', 'hey', 'foo']},
                     expect: false
-                }
+                },
+                {
+                    query: {
+                        v: {
+                            $len: {
+                                $gte: 5
+                            }
+                        }
+                    },
+                    data: {v: 'hello'},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $len: {
+                                $lt: 5
+                            }
+                        }
+                    },
+                    data: {v: 'hello'},
+                    expect: false
+                },
+                {
+                    query: {
+                        v: {
+                            $len: {
+                                $lt: 5
+                            }
+                        }
+                    },
+                    data: {v: 10},
+                    expect: false
+                },
             ]
         },
         {

@@ -89,9 +89,9 @@ interface Query<T extends SupportedType> {
     $elemMatch?: ForintQuery<ArrayElements<T>>;
     /**
      * @description
-     * Checks the length of an array.
+     * Checks if the length of an array or string matches with the given query.
      */
-    $len?: number;
+    $len?: ForintQuery<number>;
     /**
      * @description
      * Checks if all specified queries are not matching.

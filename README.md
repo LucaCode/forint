@@ -112,8 +112,8 @@ without regard to order or other elements in the array.
 ***$elemMatch: ForintQuery***  
 Checks if at least one array element matches the query.
 
-***$len: number***  
-Checks the length of an array.
+***$len: ForintQuery\<number>***  
+Checks if the length of an array or string matches with the given query.
 
 ***$not: ForintQuery | ForintQuery[]***  
 Checks if all specified queries are not matching.
