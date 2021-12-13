@@ -82,6 +82,11 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
 
 export default buildQueryExecutor;
 
+/**
+ * @description
+ * Builds a query executor from the given query.
+ * @param query
+ */
 function buildQueryExecutor<T>(query : ForintQuery<T>) : (value : any) => boolean {
     query = typeof query !== 'object' ? {$eq : query} : query;
     const keys = Object.keys(query), len = keys.length, filter : ((v : any) => boolean)[] = [];

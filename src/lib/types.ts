@@ -38,22 +38,22 @@ interface Query<T extends SupportedType> {
     $or?: ForintQuery<T>[];
     /**
      * @description
-     * Checks if the value is greater than.
+     * Checks if the value is greater.
      */
     $gt?: number;
     /**
      * @description
-     * Checks if the value is greater than or equals.
+     * Checks if the value is greater or equals.
      */
     $gte?: number;
     /**
      * @description
-     * Checks if the value is lesser than.
+     * Checks if the value is lesser.
      */
     $lt?: number;
     /**
      * @description
-     * Checks if the value is lesser than or equals.
+     * Checks if the value is lesser or equals.
      */
     $lte?: number;
     /**
@@ -68,7 +68,7 @@ interface Query<T extends SupportedType> {
     $nin?: ForintQuery<T>[];
     /**
      * @description
-     * Checks the type of the value.
+     * Checks the data type of the value.
      */
     $type?: 'string' | 'number' | 'object' | 'array' | 'boolean' | 'null';
     /**
@@ -88,7 +88,7 @@ interface Query<T extends SupportedType> {
     $len?: number;
     /**
      * @description
-     * Checks if all specific queries are not matching.
+     * Checks if all specified queries are not matching.
      */
     $not?: ForintQuery<T> | ForintQuery<T>[];
     /**
@@ -98,12 +98,12 @@ interface Query<T extends SupportedType> {
     $and?: ForintQuery<T>[];
     /**
      * @description
-     * Checks a value with a regex.
+     * Checks that the value matches with the regex.
      */
     $regex?: string;
     /**
      * @description
-     * Checks if the value exists.
+     * Checks if the value exists (is not null or undefined).
      */
     $exists?: boolean;
 }
