@@ -24,12 +24,10 @@ const filterMap : Record<string,(v : any,e : any) => boolean> = {
 
 const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
     $or : (e) => {
-        const eLen = e.length, queryOrFuncs : ((v : any) => boolean)[] = [];
-        for(let i = 0; i < eLen; i++){
-            queryOrFuncs.push(buildQueryExecutor(e[i]));
-        }
+        const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return (v) => {
-            for(let i = 0; i < eLen; i++) if(queryOrFuncs[i](v)) return true;
+            for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
             return false;
         }
     },
@@ -39,10 +37,11 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return (v) => typeof v === e;
     },
     $all : (e) => {
-        const len = e.length;
+        const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return (v) => {
             if (!Array.isArray(v)) return false;
-            for (let i = 0; i < len; i++) if (v.indexOf(e[i]) === -1) return false;
+            for (let i = 0; i < eLen; i++) if (v.findIndex(queryExecutors[i]) === -1) return false;
             return true;
         }
     },
@@ -55,12 +54,10 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return (v) => !queryFunc(v);
     },
     $and : (e) => {
-        const eLen = e.length, queryOrFuncs : ((v : any) => boolean)[] = [];
-        for(let i = 0; i < eLen; i++){
-            queryOrFuncs.push(buildQueryExecutor(e[i]));
-        }
+        const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return (v) => {
-            for(let i = 0; i < eLen; i++) if(!queryOrFuncs[i](v)) return false;
+            for(let i = 0; i < eLen; i++) if(!queryExecutors[i](v)) return false;
             return true;
         }
     },

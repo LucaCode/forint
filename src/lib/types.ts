@@ -58,12 +58,12 @@ interface Query<T extends SupportedType> {
     $lte?: number;
     /**
      * @description
-     * Check if the value is matching with one of these values.
+     * Checks if the value is matching with one of these values.
      */
     $in?: T[];
     /**
      * @description
-     * Check if the value is not matching with one of these values.
+     * Checks if the value is not matching with one of these values.
      */
     $nin?: T[];
     /**
@@ -73,12 +73,12 @@ interface Query<T extends SupportedType> {
     $type?: 'string' | 'number' | 'object' | 'array' | 'boolean' | 'null';
     /**
      * @description
-     * Check if an array contains all of these values.
+     * Checks if all array elements match the query.
      */
-    $all?: T[];
+    $all?: ForintQuery<T>[];
     /**
      * @description
-     * Check the length of an array.
+     * Checks the length of an array.
      */
     $len?: number;
     /**
