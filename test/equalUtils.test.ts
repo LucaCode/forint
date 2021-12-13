@@ -5,7 +5,7 @@ Copyright(c) Ing. Luca Gian Scaringella
  */
 
 import {contentDeepEqual, deepEqual} from "../src/lib/equalUtils";
-const assert      = require("chai").assert;
+const assert = require("chai").assert;
 
 describe('EqualUtilsTests',() => {
 
