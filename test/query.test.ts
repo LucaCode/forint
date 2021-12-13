@@ -12,7 +12,7 @@ describe('QueryTests', () => {
 
     [
         {
-            title: 'Equals Filter',
+            title: 'Equals filter',
             tests: [
                 {
                     query: {
@@ -69,7 +69,7 @@ describe('QueryTests', () => {
             ]
         },
         {
-            title: 'Content Equals Filter',
+            title: 'Content equals filter',
             tests: [
                 {
                     query: {
