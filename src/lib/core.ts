@@ -80,9 +80,8 @@ function buildQueryExecutor<T>(query : ForintQuery<T>) : (value : any) => boolea
             const filterFunc = filterMap[prop], expected = query[prop];
             filter.push((v) => filterFunc(v,expected));
         }
-        else if(preparedFilterMap[prop]){
+        else if(preparedFilterMap[prop])
             filter.push(preparedFilterMap[prop](query[prop]));
-        }
         else if(typeof query[prop] === 'object') {
             const innerQueryFunc = buildQueryExecutor(query[prop]), tmpProp = prop;
             filter.push((v) => {
