@@ -52,7 +52,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return v => {
             if(!Array.isArray(v)) return false;
             const len = v.length;
-            for(let i = 0; i < len; i++) if(queryExecutor(v)) return true;
+            for(let i = 0; i < len; i++) if(queryExecutor(v[i])) return true;
             return false;
         }
     },
