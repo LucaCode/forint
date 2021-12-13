@@ -33,7 +33,7 @@ interface Query<T extends SupportedType> {
      * @description
      * Checks if the value is not content deep equal. (!= instead of !==).
      */
-    $nceq?: T,
+    $nce?: T,
     /**
      * @description
      * Checks if one of the queries is matching.

@@ -8,10 +8,10 @@ import {Filter, ForintQuery, QueryExecutor} from "./types";
 import {contentDeepEqual, deepEqual} from "./equalUtils";
 
 const filterMap: Record<string,(v: any,e: any) => boolean> = {
-    $ceq: contentDeepEqual,
-    $nceq: (v,e) => !contentDeepEqual(v,e),
     $eq: deepEqual,
-    $neq: (v,e) => !deepEqual(v,e),
+    $ne: (v,e) => !deepEqual(v,e),
+    $ceq: contentDeepEqual,
+    $nce: (v,e) => !contentDeepEqual(v,e),
     $gt: (v,e) => v > e,
     $gte: (v,e) => v >= e,
     $lt: (v,e) => v < e,

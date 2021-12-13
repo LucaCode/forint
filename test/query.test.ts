@@ -29,7 +29,7 @@ describe('QueryTests', () => {
                 {
                     query: {
                         person: {
-                            $neq: {
+                            $ne: {
                                 name: 'luca',
                                 age: 20
                             }
@@ -86,7 +86,7 @@ describe('QueryTests', () => {
                 {
                     query: {
                         person: {
-                            $nceq: {
+                            $nce: {
                                 name: 'luca',
                                 age: '200'
                             }
