@@ -385,6 +385,38 @@ describe('QueryTests', () => {
             ]
         },
         {
+            title: 'ElemMatch filter',
+            tests: [
+                {
+                    query: {
+                        v: {
+                            $elemMatch: {$gte : 10}
+                        }
+                    },
+                    data: {v: [1,5,4,10]},
+                    expect: true
+                },
+                {
+                    query: {
+                        v: {
+                            $elemMatch: {$gte : 10}
+                        }
+                    },
+                    data: {v: [1,2,3,4,5,6]},
+                    expect: false
+                },
+                {
+                    query: {
+                        v: {
+                            $elemMatch: {$gte : 10}
+                        }
+                    },
+                    data: {v: ''},
+                    expect: false
+                }
+            ]
+        },
+        {
             title: 'Len filter',
             tests: [
                 {
