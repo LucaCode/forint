@@ -25,9 +25,7 @@ export function deepEqual(v1 : any, v2 : any) : boolean {
                 return true;
             }
         }
-        else {
-            return false;
-        }
+        else return false;
     }
     return false;
 }
@@ -53,9 +51,7 @@ export function contentDeepEqual(v1 : any, v2 : any) : boolean {
                 return true;
             }
         }
-        else {
-            return false;
-        }
+        else return false;
     }
     return false;
 }
