@@ -76,8 +76,8 @@ interface Query<T extends SupportedType> {
     $type?: 'string' | 'number' | 'object' | 'array' | 'boolean' | 'null';
     /**
      * @description
-     * Checks if elements in the array match with all given queries.
-     * Without regard to order or other elements in the array.
+     * Checks if any elements in the array match all given queries
+     * without regard to order or other elements in the array.
      */
     $all?: ForintQuery<T>[];
     /**
