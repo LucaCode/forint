@@ -4,10 +4,10 @@ GitHub: LucaCode
 Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import {ForintQuery} from "./types";
+import {Filter, ForintQuery, QueryExecutor} from "./types";
 import {contentDeepEqual, deepEqual} from "./equalUtils";
 
-const filterMap : Record<string,(v : any,e : any) => boolean> = {
+const filterMap: Record<string,(v: any,e: any) => boolean> = {
     $ceq: contentDeepEqual,
     $nceq: (v,e) => !contentDeepEqual(v,e),
     $eq: deepEqual,
@@ -19,9 +19,9 @@ const filterMap : Record<string,(v : any,e : any) => boolean> = {
     $len: (v,e) => v && typeof v === 'object' && v.length === e
 };
 
-const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
+const preparedFilterMap: Record<string,(e: any) => Filter> = {
     $or: e => {
-        const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
+        const eLen = e.length, queryExecutors: QueryExecutor[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return v => {
             for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
@@ -39,7 +39,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return v => typeof v === e;
     },
     $all: e => {
-        const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
+        const eLen = e.length, queryExecutors: QueryExecutor[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return v => {
             if(!Array.isArray(v)) return false;
@@ -65,7 +65,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         return v => !queryFunc(v);
     },
     $and: e => {
-        const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
+        const eLen = e.length, queryExecutors: QueryExecutor[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return v => {
             for(let i = 0; i < eLen; i++) if(!queryExecutors[i](v)) return false;
@@ -87,11 +87,11 @@ export default buildQueryExecutor;
  * Builds a query executor from the given query.
  * @param query
  */
-function buildQueryExecutor<T>(query : ForintQuery<T>) : (value : any) => boolean {
-    query = typeof query !== 'object' ? {$eq : query} : query;
-    const keys = Object.keys(query), len = keys.length, filter : ((v : any) => boolean)[] = [];
-    let prop;
-    for(let i = 0; i < len; i++){
+function buildQueryExecutor<T>(query: ForintQuery<T>): QueryExecutor {
+    query = typeof query !== 'object' ? {$eq: query} : query;
+    const keys = Object.keys(query), len = keys.length, filter: Filter[] = [];
+    let prop, i;
+    for(i = 0; i < len; i++){
         prop = keys[i];
         if(filterMap[prop]){
             const filterFunc = filterMap[prop], expected = query[prop];

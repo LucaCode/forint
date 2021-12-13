@@ -4,6 +4,9 @@ GitHub: LucaCode
 Copyright(c) Ing. Luca Gian Scaringella
  */
 
+export type Filter = (value: any) => boolean;
+export type QueryExecutor = (value: any) => boolean;
+
 type SupportedType =
     | string
     | number

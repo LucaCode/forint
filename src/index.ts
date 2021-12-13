@@ -5,11 +5,12 @@ Copyright(c) Ing. Luca Gian Scaringella
  */
 
 import buildQueryExecutor from "./lib/core";
-import {ForintQuery}  from "./lib/types";
+import {ForintQuery, QueryExecutor} from "./lib/types";
 import {deepEqual,contentDeepEqual} from "./lib/equalUtils";
 
 export {
     ForintQuery,
+    QueryExecutor,
     deepEqual,
     contentDeepEqual
 }
