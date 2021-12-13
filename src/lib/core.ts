@@ -8,21 +8,21 @@ import {ForintQuery} from "./types";
 import {contentDeepEqual, deepEqual} from "./equalUtils";
 
 const filterMap : Record<string,(v : any,e : any) => boolean> = {
-    $ceq : contentDeepEqual,
-    $nceq : (v,e) => !contentDeepEqual(v,e),
-    $eq : deepEqual,
-    $neq : (v,e) => !deepEqual(v,e),
-    $gt : (v,e) => v > e,
-    $gte : (v,e) => v >= e,
-    $lt : (v,e) => v < e,
-    $lte : (v,e) => v <= e,
-    $in : (v,e) => e.indexOf(v) !== -1,
-    $nin : (v,e) => e.indexOf(v) === -1,
-    $len : (v,e) => v && typeof v === 'object' && v.length === e
+    $ceq: contentDeepEqual,
+    $nceq: (v,e) => !contentDeepEqual(v,e),
+    $eq: deepEqual,
+    $neq: (v,e) => !deepEqual(v,e),
+    $gt: (v,e) => v > e,
+    $gte: (v,e) => v >= e,
+    $lt: (v,e) => v < e,
+    $lte: (v,e) => v <= e,
+    $in: (v,e) => e.indexOf(v) !== -1,
+    $nin: (v,e) => e.indexOf(v) === -1,
+    $len: (v,e) => v && typeof v === 'object' && v.length === e
 };
 
 const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
-    $or : (e) => {
+    $or: (e) => {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return (v) => {
@@ -30,12 +30,12 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
             return false;
         }
     },
-    $type : (e) => {
+    $type: (e) => {
         if (e === 'array') return Array.isArray;
         else if(e === 'null') return (v) => v === null;
         return (v) => typeof v === e;
     },
-    $all : (e) => {
+    $all: (e) => {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return (v) => {
@@ -44,7 +44,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
             return true;
         }
     },
-    $not : (e) => {
+    $not: (e) => {
         if (Array.isArray(e)) {
             const orFunc = preparedFilterMap['$or'](e);
             return (v) => !orFunc(v);
@@ -52,7 +52,7 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
         const queryFunc = buildQueryExecutor(e);
         return (v) => !queryFunc(v);
     },
-    $and : (e) => {
+    $and: (e) => {
         const eLen = e.length, queryExecutors : ((v : any) => boolean)[] = [];
         for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
         return (v) => {
@@ -60,12 +60,12 @@ const preparedFilterMap : Record<string,(e : any) => (v : any) => boolean> = {
             return true;
         }
     },
-    $regex : (e) => {
+    $regex: (e) => {
         const regex = RegExp(e);
         const test = regex.test.bind(regex);
         return (v) => test(v);
     },
-    $exists : e => e ? v => v != null : v => v == null,
+    $exists: e => e ? v => v != null : v => v == null,
 };
 
 export default buildQueryExecutor;
