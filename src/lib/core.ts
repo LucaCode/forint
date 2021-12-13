@@ -1,10 +1,10 @@
 /*
-Author: Luca Scaringella
+Author: Ing. Luca Gian Scaringella
 GitHub: LucaCode
-Copyright(c) Luca Scaringella
+Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import {ForintQuery}             from "./types";
+import {ForintQuery} from "./types";
 import {contentDeepEqual, deepEqual} from "./equalUtils";
 
 
