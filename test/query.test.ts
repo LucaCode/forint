@@ -4,7 +4,7 @@ GitHub: LucaCode
 Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import forint from "../src";
+import queric from "../src";
 
 const assert = require("chai").assert;
 
@@ -670,7 +670,7 @@ describe('QueryTests', () => {
         describe(testSet.title, () => {
             testSet.tests.forEach((test, index) => {
                 it(test.title || `${index} should ${test.expect ? 'match' : 'not match'}`, () => {
-                    assert(forint(test.query)(test.data) === test.expect);
+                    assert(queric(test.query)(test.data) === test.expect);
                 });
             });
         })

@@ -4,7 +4,7 @@ GitHub: LucaCode
 Copyright(c) Ing. Luca Gian Scaringella
  */
 
-import {Filter, ForintQuery, QueryExecutor} from "./types";
+import {Filter, Query, QueryExecutor} from "./types";
 import {contentDeepEqual, deepEqual} from "./equalUtils";
 
 const filterMap: Record<string,(v: any,e: any) => boolean> = {
@@ -31,7 +31,7 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
     },
     $all: e => {
         const eLen = e.length, queryExecutors: QueryExecutor[] = [];
-        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQuery(e[i]));
         return v => {
             if(!Array.isArray(v)) return false;
             for(let i = 0; i < eLen; i++) if(v.findIndex(queryExecutors[i]) === -1) return false;
@@ -39,7 +39,7 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
         }
     },
     $elemMatch: e => {
-        const queryExecutor = buildQueryExecutor(e);
+        const queryExecutor = buildQuery(e);
         return v => {
             if(!Array.isArray(v)) return false;
             const len = v.length;
@@ -48,7 +48,7 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
         }
     },
     $len: e => {
-        const queryExecutor = buildQueryExecutor(e);
+        const queryExecutor = buildQuery(e);
         return v => Array.isArray(v) || typeof v === 'string' ? queryExecutor(v.length) : false;
     },
     $not: e => {
@@ -56,12 +56,12 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
             const orFilter = preparedFilterMap['$or'](e);
             return v => !orFilter(v);
         }
-        const queryExecutor = buildQueryExecutor(e);
+        const queryExecutor = buildQuery(e);
         return v => !queryExecutor(v);
     },
     $or: e => {
         const eLen = e.length, queryExecutors: QueryExecutor[] = [];
-        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQuery(e[i]));
         return v => {
             for(let i = 0; i < eLen; i++) if(queryExecutors[i](v)) return true;
             return false;
@@ -69,7 +69,7 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
     },
     $and: e => {
         const eLen = e.length, queryExecutors: QueryExecutor[] = [];
-        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQueryExecutor(e[i]));
+        for(let i = 0; i < eLen; i++) queryExecutors.push(buildQuery(e[i]));
         return v => {
             for(let i = 0; i < eLen; i++) if(!queryExecutors[i](v)) return false;
             return true;
@@ -83,14 +83,14 @@ const preparedFilterMap: Record<string,(e: any) => Filter> = {
     $exists: e => e ? v => v != null : v => v == null,
 };
 
-export default buildQueryExecutor;
+export default buildQuery;
 
 /**
  * @description
  * Builds a query executor from the given query.
  * @param query
  */
-function buildQueryExecutor<T>(query: ForintQuery<T>): QueryExecutor {
+function buildQuery<T>(query: Query<T>): QueryExecutor {
     query = typeof query !== 'object' ? {$eq: query} : query;
     const keys = Object.keys(query), len = keys.length, filters: Filter[] = [];
     let prop, i;
@@ -103,7 +103,7 @@ function buildQueryExecutor<T>(query: ForintQuery<T>): QueryExecutor {
         else if(preparedFilterMap[prop])
             filters.push(preparedFilterMap[prop](query[prop]));
         else if(typeof query[prop] === 'object') {
-            const innerQueryExecutor = buildQueryExecutor(query[prop]), tmpProp = prop;
+            const innerQueryExecutor = buildQuery(query[prop]), tmpProp = prop;
             filters.push(v => {
                 if(v && typeof v === 'object') return innerQueryExecutor(v[tmpProp]);
                 return false;

@@ -1,5 +1,5 @@
 {
-  "name": "forint",
+  "name": "queric",
   "version": "0.2.1",
   "license": "MIT",
   "description": "High-performance TypeScript MongoDB inspired query library.",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/LucaCode/forint.git"
+    "url": "https://github.com/LucaCode/queric.git"
   },
   "author": {
     "name": "Ing. Luca Gian Scaringella",

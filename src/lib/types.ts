@@ -15,7 +15,7 @@ type SupportedType =
     | null
     | any;
 
-interface Query<T extends SupportedType> {
+interface FilterObject<T extends SupportedType> {
     /**
      * @description
      * Checks if the value is deep equal.
@@ -60,12 +60,12 @@ interface Query<T extends SupportedType> {
      * @description
      * Checks if the value is matching with one of these queries.
      */
-    $in?: ForintQuery<T>[];
+    $in?: Query<T>[];
     /**
      * @description
      * Checks if the value is not matching with one of these queries.
      */
-    $nin?: ForintQuery<T>[];
+    $nin?: Query<T>[];
     /**
      * @description
      * Checks the data type of the value.
@@ -76,32 +76,32 @@ interface Query<T extends SupportedType> {
      * Checks if any elements in the array match all given queries
      * without regard to order or other elements in the array.
      */
-    $all?: ForintQuery<ArrayElements<T>>[];
+    $all?: Query<ArrayElements<T>>[];
     /**
      * @description
      * Checks if at least one array element matches the query.
      */
-    $elemMatch?: ForintQuery<ArrayElements<T>>;
+    $elemMatch?: Query<ArrayElements<T>>;
     /**
      * @description
      * Checks if the length of an array or string matches with the given query.
      */
-    $len?: ForintQuery<number>;
+    $len?: Query<number>;
     /**
      * @description
      * Checks if all specified queries are not matching.
      */
-    $not?: ForintQuery<T> | ForintQuery<T>[];
+    $not?: Query<T> | Query<T>[];
     /**
      * @description
      * Checks if one of the queries is matching.
      */
-    $or?: ForintQuery<T>[];
+    $or?: Query<T>[];
     /**
      * @description
      * Checks if all queries are matching with the value.
      */
-    $and?: ForintQuery<T>[];
+    $and?: Query<T>[];
     /**
      * @description
      * Checks that the value matches with the regex.
@@ -114,9 +114,9 @@ interface Query<T extends SupportedType> {
     $exists?: boolean;
 }
 
-export type ElemMatch<T> = { [P in keyof T]?: ForintQuery<T[P]> };
+export type ElemMatch<T> = { [P in keyof T]?: Query<T[P]> };
 
 export type ExternalQuery<T extends SupportedType> = ElemMatch<T>;
-export interface InternalQuery<T extends SupportedType> extends Query<T> {}
+export interface InternalQuery<T extends SupportedType> extends FilterObject<T> {}
 
-export type ForintQuery<T extends SupportedType = any> =  T | ExternalQuery<T> | InternalQuery<T>;
+export type Query<T extends SupportedType = any> =  T | ExternalQuery<T> | InternalQuery<T>;

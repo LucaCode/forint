@@ -1,22 +1,22 @@
-# Forint 🔎
+# Queric 🔎
 
-[![Downloads](https://img.shields.io/npm/dm/forint)](https://www.npmjs.com/package/forint)
-[![Minzipped size](https://img.shields.io/bundlephobia/minzip/forint)](https://www.npmjs.com/package/forint)
-[![Test coverage](https://img.shields.io/badge/test%20coverage-100%20%25-brightgreen)](https://www.npmjs.com/package/forint)
+[![Downloads](https://img.shields.io/npm/dm/queric)](https://www.npmjs.com/package/queric)
+[![Minzipped size](https://img.shields.io/bundlephobia/minzip/queric)](https://www.npmjs.com/package/queric)
+[![Test coverage](https://img.shields.io/badge/test%20coverage-100%20%25-brightgreen)](https://www.npmjs.com/package/queric)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
-## What is Forint
+## What is Queric
 
-***Forint*** is a high-performance MongoDB inspired TypeScript query library.
+***Queric*** is a high-performance MongoDB inspired TypeScript query library.
 You can use it to check if a value matches with a given query or to filter an array.
-Forint prepares queries to get high-performance when executing a query multiple times. 
+Queric prepares queries to get high-performance when executing a query multiple times. 
 
-## How to use Forint
+## How to use Queric
 
 ### Basic usage
 
 ```typescript
-import forint from "forint";
+import queric from "queric";
 
 interface Person {
     name: string
@@ -28,7 +28,7 @@ interface Person {
 const persons: Person[] = [...];
 
 //Build a query typesafe
-const adultQuery = forint<Person>({
+const adultQuery = queric<Person>({
     age: {$gte: 18}
 });
 
@@ -41,16 +41,16 @@ const adults = persons.filter(adultQuery);
 
 ### Queries
 
-Forint queries are nested objects with filters. 
+Queric queries are nested objects with filters. 
 A filter is a simple object property starting with a dollar symbol. 
 These filter objects can be assigned to a query property.
 When you assign a non-object type value to a query property or use it 
 as a query, the $eq filter is automatically used. 
 
 ```typescript
-import forint from "forint";
+import queric from "queric";
 
-forint({
+queric({
     age: {
         //Filter object
         $gte: 18,
@@ -93,32 +93,32 @@ Checks if the value is lesser.
 ***$lte: number***  
 Checks if the value is lesser or equals.
 
-***$in: ForintQuery[]***  
+***$in: Query[]***  
 Checks if the value is matching with one of these queries.
 
-***$nin: ForintQuery[]***  
+***$nin: Query[]***  
 Checks if the value is not matching with one of these queries.
 
 ***$type: 'string' | 'number' | 'object' | 'array' | 'boolean' | 'null'***  
 Checks the data type of the value.
 
-***$all: ForintQuery[]***  
+***$all: Query[]***  
 Checks if any elements in the array match all given queries 
 without regard to order or other elements in the array.
 
-***$elemMatch: ForintQuery***  
+***$elemMatch: Query***  
 Checks if at least one array element matches the query.
 
-***$len: ForintQuery\<number>***  
+***$len: Query\<number>***  
 Checks if the length of an array or string matches with the given query.
 
-***$not: ForintQuery | ForintQuery[]***  
+***$not: Query | Query[]***  
 Checks if all specified queries are not matching.
 
-***$or: ForintQuery[]***  
+***$or: Query[]***  
 Checks if one of the queries is matching.
 
-***$and: ForintQuery[]***  
+***$and: Query[]***  
 Checks if all queries are matching with the value.
 
 ***$regex: string***  
