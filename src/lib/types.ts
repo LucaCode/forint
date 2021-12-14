@@ -58,12 +58,12 @@ interface FilterObject<T extends SupportedType> {
     $lte?: number;
     /**
      * @description
-     * Checks if the value is matching with one of these queries.
+     * Checks if the value is matching with one of the given queries.
      */
     $in?: Query<T>[];
     /**
      * @description
-     * Checks if the value is not matching with one of these queries.
+     * Checks if the value is not matching with one of the given queries.
      */
     $nin?: Query<T>[];
     /**
@@ -109,7 +109,7 @@ interface FilterObject<T extends SupportedType> {
     $regex?: string;
     /**
      * @description
-     * Checks if the value exists (is not null or undefined).
+     * Checks the existence of a value (is not null or undefined).
      */
     $exists?: boolean;
 }

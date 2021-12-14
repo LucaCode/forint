@@ -94,10 +94,10 @@ Checks if the value is lesser.
 Checks if the value is lesser or equals.
 
 ***$in: Query[]***  
-Checks if the value is matching with one of these queries.
+Checks if the value is matching with one of the given queries.
 
 ***$nin: Query[]***  
-Checks if the value is not matching with one of these queries.
+Checks if the value is not matching with one of the given queries.
 
 ***$type: 'string' | 'number' | 'object' | 'array' | 'boolean' | 'null'***  
 Checks the data type of the value.
@@ -125,7 +125,7 @@ Checks if all queries are matching with the value.
 Checks that the value matches with the regex.
 
 ***$exists: boolean***  
-Checks if the value exists (is not null or undefined).
+Checks the existence of a value (is not null or undefined).
 
 ## License
 
